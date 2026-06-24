@@ -1,0 +1,659 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysian Blue Print - Premium Printing Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #000000;
+            background: #ffffff;
+        }
+
+        header {
+            background: #000000;
+            color: #ffffff;
+            height: 82px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            width: min(1140px, calc(100% - 64px));
+            height: 82px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .logo img {
+            width: 53px;
+            height: 46px;
+            display: block;
+            object-fit: contain;
+            background: #ffffff;
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+
+        .logo span {
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0;
+            white-space: nowrap;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #856A00;
+        }
+
+        .hero {
+            background: #000000;
+            color: #ffffff;
+            min-height: 498px;
+            padding: 0 2rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            transform: translateY(-6px);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.12;
+            margin-bottom: 22px;
+            color: #856A00;
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+
+        .hero p {
+            font-size: 21px;
+            margin-bottom: 32px;
+            color: #ffffff;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            min-width: 217px;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            background: #856A00;
+            color: #000000;
+            padding: 0 34px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background 0.3s, transform 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .cta-button:hover {
+            background: #000000;
+            transform: translateY(-1px);
+        }
+
+        .container {
+            max-width: 1136px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        section {
+            padding: 0 0 4rem;
+        }
+
+        section h2 {
+            font-size: 38px;
+            line-height: 1.2;
+            margin: 10px 0 54px;
+            text-align: center;
+            color: #000000;
+            font-weight: 700;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 32px;
+            margin-bottom: 3rem;
+        }
+
+        .service-card {
+            min-height: 270px;
+            background: #ffffff;
+            padding: 42px 32px 30px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.18);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.16);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 14px rgba(0, 0, 0, 0.18);
+        }
+
+        .service-card h3 {
+            color: #856A00;
+            margin: 20px 0 18px;
+            font-size: 20px;
+            line-height: 1.25;
+            font-weight: 500;
+        }
+
+        .service-card p {
+            color: #000000;
+            line-height: 1.85;
+            font-size: 13px;
+        }
+
+        .icon {
+            height: 42px;
+            font-size: 34px;
+            line-height: 42px;
+            margin-bottom: 8px;
+        }
+
+        .features-section {
+            background: #ffffff;
+            padding: 4rem 0;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-left: 4px solid #856A00;
+            border-radius: 4px;
+        }
+
+        .feature h4 {
+            color: #000000;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .feature p {
+            color: #000000;
+            font-size: 14px;
+        }
+
+        .testimonials {
+            background: #ffffff;
+            padding: 4rem 0;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            border-top: 4px solid #856A00;
+        }
+
+        .testimonial p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: #000000;
+            font-size: 14px;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: #000000;
+            font-size: 14px;
+        }
+
+        .cta-section {
+            background: #856A00;
+            color: #000000;
+            text-align: center;
+            min-height: 328px;
+            padding: 70px 2rem 64px;
+        }
+
+        .cta-section h2 {
+            color: #000000;
+            font-size: 39px;
+            margin: 0 0 30px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 32px;
+        }
+
+        .cta-section .cta-button {
+            min-width: 207px;
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .cta-section .cta-button:hover {
+            background: #ffffff;
+        }
+
+        footer {
+            background: #000000;
+            color: #ffffff;
+            padding: 50px 2rem 18px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1.25fr 1fr;
+            gap: 64px;
+            margin-bottom: 24px;
+        }
+
+        .footer-section h4 {
+            color: #856A00;
+            margin-bottom: 18px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .footer-section {
+            text-align: left;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 14px;
+        }
+
+        .footer-section a:hover {
+            color: #856A00;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            font-size: 14px;
+            color: #ffffff;
+            margin-bottom: 3px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #856A00;
+            padding-top: 16px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .site-message {
+            position: fixed;
+            right: 1.5rem;
+            bottom: 1.5rem;
+            max-width: 320px;
+            background: #856A00;
+            color: #000000;
+            padding: 1rem 1.2rem;
+            border-radius: 6px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 200;
+        }
+
+        .site-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 900px) {
+            header,
+            nav {
+                height: auto;
+            }
+
+            nav {
+                width: min(100% - 32px, 1140px);
+                min-height: 82px;
+                align-items: flex-start;
+                flex-direction: column;
+                justify-content: center;
+                gap: 16px;
+                padding: 14px 0;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                gap: 14px 22px;
+            }
+
+            .hero {
+                min-height: 420px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .services-grid,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .hero h1,
+            section h2,
+            .cta-section h2 {
+                font-size: 32px;
+            }
+
+            .hero p,
+            .cta-section p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="EB_LOGO.png" alt="Elysian Blue Print Logo">
+                <span>Elysian Blue Print</span>
+            </div>
+            <ul>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#features">Why Us</a></li>
+                <li><a href="#shortlet">Shortlet Apartments</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Elysian Blue Print</h1>
+            <p>Bringing your ideas to life with premium print and design services</p>
+            <button class="cta-button">Get Started Today</button>
+        </div>
+    </section>
+    
+    <section id="services" class="container">
+        <h2>Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="icon">&#128179;</div>
+                <h3>Business Cards</h3>
+                <p>Professional business cards with premium finishes. Choose from matte, gloss, or specialty papers. Fast turnaround on all orders.</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">&#128196;</div>
+                <h3>Brochures & Flyers</h3>
+                <p>Eye-catching marketing materials designed to make an impression. Custom sizes, colors, and finishes available.</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">&#127912;</div>
+                <h3>Large Format Printing</h3>
+                <p>Banners, posters, and signage up to 60" wide. Perfect for events, promotions, and outdoor displays.</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">&#128230;</div>
+                <h3>Packaging & Labels</h3>
+                <p>Custom boxes, labels, and packaging solutions. Strengthen your brand with quality packaging design.</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">&#127919;</div>
+                <h3>Design Services</h3>
+                <p>Professional design team ready to bring your vision to life. From concept to final print-ready files.</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">&#9889;</div>
+                <h3>Rush Orders</h3>
+                <p>Need it fast? We offer expedited printing services for time-sensitive projects without sacrificing quality.</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">&#127968;</div>
+                <h3>Shortlet Apartments</h3>
+                <p>Comfortable short-stay apartment options are coming soon under Elysian Blue Print Global Ltd.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2>Why Choose Elysian Blue Print</h2>
+            <div class="features-list">
+                <div class="feature">
+                    <h4>&#10003; Premium Quality</h4>
+                    <p>State-of-the-art printing technology ensures vibrant colors and crisp details on every project.</p>
+                </div>
+                <div class="feature">
+                    <h4>&#10003; Expert Team</h4>
+                    <p>Experienced designers and print professionals dedicated to exceeding your expectations.</p>
+                </div>
+                <div class="feature">
+                    <h4>&#10003; Competitive Pricing</h4>
+                    <p>Get the best value for your printing budget with transparent pricing and no hidden fees.</p>
+                </div>
+                <div class="feature">
+                    <h4>&#10003; Fast Turnaround</h4>
+                    <p>Quick delivery times without compromising on quality. Rush options available.</p>
+                </div>
+                <div class="feature">
+                    <h4>&#10003; Custom Solutions</h4>
+                    <p>Tailored printing solutions for your unique business needs and budget requirements.</p>
+                </div>
+                <div class="feature">
+                    <h4>&#10003; Eco-Friendly Options</h4>
+                    <p>Sustainable printing practices using recycled and environmentally responsible materials.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="shortlet" class="testimonials">
+        <div class="container">
+            <h2>Shortlet Apartment</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <p>Coming soon.</p>
+                    <div class="testimonial-author">Elysian Blue Print Global Ltd</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-section">
+        <h2>Ready to Print Something Amazing?</h2>
+        <p>Get a free quote on your next project today</p>
+        <button class="cta-button">Request a Quote</button>
+    </section>
+    
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Elysian Blue Print</h4>
+                <p>Premium print and design partner serving businesses of all sizes with sharp detail, vibrant color, and reliable turnaround.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#">Business Cards</a></li>
+                    <li><a href="#">Brochures</a></li>
+                    <li><a href="#">Large Format</a></li>
+                    <li><a href="#">Packaging</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Phone: 08032098234</p>
+                <p>Phone: 08101643205</p>
+                <p>Email: Elysianboxandbrand@gmail.com</p>
+                <p>Address: 123 Print Street, Design City, DC 12345</p>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                
+                <ul>
+                    <li><a href="https://www.facebook.com/elysianblueprintgloballtd" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                    <li><a href="https://www.instagram.com/elysianblueprintgloballtd" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                    <li><a href="https://x.com/elysianprintss/status/2064691062812082373?s=46" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Elysian Blue Print. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            const sections = Array.from(navLinks)
+                .map(function (link) {
+                    return document.querySelector(link.getAttribute("href"));
+                })
+                .filter(Boolean);
+            const ctaButtons = document.querySelectorAll(".cta-button");
+            const placeholderLinks = document.querySelectorAll('a[href="#"]');
+
+            const message = document.createElement("div");
+            message.className = "site-message";
+            document.body.appendChild(message);
+
+            let messageTimer;
+
+            function showMessage(text) {
+                message.textContent = text;
+                message.classList.add("show");
+
+                clearTimeout(messageTimer);
+                messageTimer = setTimeout(function () {
+                    message.classList.remove("show");
+                }, 3500);
+            }
+
+            function scrollToSection(target) {
+                const section = document.querySelector(target);
+
+                if (!section) {
+                    return;
+                }
+
+                section.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            }
+
+            navLinks.forEach(function (link) {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    scrollToSection(link.getAttribute("href"));
+                });
+            });
+
+            ctaButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    scrollToSection("#contact");
+                    showMessage("Contact Elysian Blue Print on 08032098234 or 08101643205 for a quote.");
+                });
+            });
+
+            placeholderLinks.forEach(function (link) {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    showMessage("This link is not connected yet. Please use the contact details for now.");
+                });
+            });
+
+            function setActiveNavLink() {
+                let currentSectionId = "";
+
+                sections.forEach(function (section) {
+                    const top = section.getBoundingClientRect().top;
+
+                    if (top <= 140) {
+                        currentSectionId = section.id;
+                    }
+                });
+
+                navLinks.forEach(function (link) {
+                    const isActive = link.getAttribute("href") === "#" + currentSectionId;
+                    link.classList.toggle("active", isActive);
+                });
+            }
+
+            setActiveNavLink();
+            window.addEventListener("scroll", setActiveNavLink);
+        });
+    </script>
+</body>
+</html>
