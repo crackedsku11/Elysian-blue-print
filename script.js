@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .filter(Boolean);
     const ctaButtons = document.querySelectorAll("a.cta-button");
+    const requestForm = document.querySelector(".request-form");
 
     const message = document.createElement("div");
     message.className = "site-message";
@@ -54,6 +55,46 @@ document.addEventListener("DOMContentLoaded", function () {
             showMessage(messageText);
         });
     });
+
+    if (requestForm) {
+        requestForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const submitButton = requestForm.querySelector('button[type="submit"]');
+            const formData = new FormData(requestForm);
+            const originalButtonText = submitButton.textContent;
+
+            submitButton.disabled = true;
+            submitButton.textContent = "Sending...";
+
+            fetch(requestForm.action, {
+                method: requestForm.method,
+                body: formData,
+                headers: {
+                    Accept: "application/json",
+                },
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    if (data.success) {
+                        requestForm.reset();
+                        showMessage("Request sent successfully. We’ll get back to you soon.");
+                        return;
+                    }
+
+                    showMessage(data.message || "The request could not be sent. Please try WhatsApp.");
+                })
+                .catch(function () {
+                    showMessage("The request could not be sent. Please try WhatsApp.");
+                })
+                .finally(function () {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                });
+        });
+    }
 
     function setActiveNavLink() {
         let currentSectionId = "";
