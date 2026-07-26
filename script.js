@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .filter(Boolean);
     const ctaButtons = document.querySelectorAll("a.cta-button");
     const requestForm = document.querySelector(".request-form");
+    const navToggle = document.querySelector(".nav-toggle");
 
     const message = document.createElement("div");
     message.className = "site-message";
@@ -37,11 +38,35 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    function closeNavMenu() {
+        document.body.classList.remove("nav-open");
+
+        if (navToggle) {
+            navToggle.setAttribute("aria-expanded", "false");
+            navToggle.setAttribute("aria-label", "Open navigation menu");
+        }
+    }
+
+    if (navToggle) {
+        navToggle.addEventListener("click", function () {
+            const isOpen = document.body.classList.toggle("nav-open");
+            navToggle.setAttribute("aria-expanded", String(isOpen));
+            navToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+        });
+    }
+
     navLinks.forEach(function (link) {
         link.addEventListener("click", function (event) {
             event.preventDefault();
             scrollToSection(link.getAttribute("href"));
+            closeNavMenu();
         });
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeNavMenu();
+        }
     });
 
     ctaButtons.forEach(function (button) {

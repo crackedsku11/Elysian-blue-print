@@ -68,6 +68,40 @@ nav ul {
     align-items: center;
 }
 
+.nav-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid rgba(42, 10, 52, 0.18);
+    border-radius: 6px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    width: 20px;
+    height: 2px;
+    border-radius: 99px;
+    background: #2A0A34;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+body.nav-open .nav-toggle span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+body.nav-open .nav-toggle span:nth-child(2) {
+    opacity: 0;
+}
+
+body.nav-open .nav-toggle span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 nav a {
     color: #2A0A34;
     text-decoration: none;
@@ -563,42 +597,41 @@ footer {
 }
 
 @media (max-width: 900px) {
-    header,
-    nav {
-        height: auto;
-    }
-
     nav {
         width: min(100% - 32px, 1140px);
-        min-height: 82px;
-        align-items: stretch;
-        flex-direction: column;
-        justify-content: center;
-        gap: 12px;
-        padding: 14px 0;
+        height: 82px;
+        position: relative;
+    }
+
+    .nav-toggle {
+        display: inline-flex;
     }
 
     nav ul {
-        width: 100%;
-        flex-wrap: nowrap;
-        gap: 24px;
-        overflow-x: auto;
-        padding-bottom: 2px;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    nav ul::-webkit-scrollbar {
+        position: absolute;
+        top: calc(100% + 1px);
+        left: 0;
+        right: 0;
         display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 10px 0;
+        background: #ffffff;
+        border: 1px solid rgba(42, 10, 52, 0.12);
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
     }
 
-    nav li {
-        flex: 0 0 auto;
+    body.nav-open nav ul {
+        display: flex;
     }
 
     nav a {
-        white-space: nowrap;
-        font-size: 13px;
+        display: block;
+        padding: 12px 16px;
+        font-size: 14px;
+        border-bottom: none;
     }
 
     .logo img {
@@ -632,14 +665,6 @@ footer {
 @media (max-width: 520px) {
     nav {
         width: min(100% - 24px, 1140px);
-    }
-
-    nav ul {
-        gap: 20px;
-    }
-
-    nav a {
-        font-size: 12px;
     }
 
     .hero h1,
