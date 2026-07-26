@@ -571,16 +571,34 @@ footer {
     nav {
         width: min(100% - 32px, 1140px);
         min-height: 82px;
-        align-items: flex-start;
+        align-items: stretch;
         flex-direction: column;
         justify-content: center;
-        gap: 16px;
+        gap: 12px;
         padding: 14px 0;
     }
 
     nav ul {
-        flex-wrap: wrap;
-        gap: 14px 22px;
+        width: 100%;
+        flex-wrap: nowrap;
+        gap: 24px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    nav ul::-webkit-scrollbar {
+        display: none;
+    }
+
+    nav li {
+        flex: 0 0 auto;
+    }
+
+    nav a {
+        white-space: nowrap;
+        font-size: 13px;
     }
 
     .logo img {
@@ -612,6 +630,18 @@ footer {
 }
 
 @media (max-width: 520px) {
+    nav {
+        width: min(100% - 24px, 1140px);
+    }
+
+    nav ul {
+        gap: 20px;
+    }
+
+    nav a {
+        font-size: 12px;
+    }
+
     .hero h1,
     section h2,
     .cta-section h2 {
