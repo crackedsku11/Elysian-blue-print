@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let activeVideo = heroVideo;
         let standbyVideo = heroVideo.cloneNode(false);
         let isTransitioning = false;
+        let hasInteractionRetry = false;
 
         standbyVideo.removeAttribute("id");
         standbyVideo.removeAttribute("data-video-playlist");
@@ -141,22 +142,51 @@ document.addEventListener("DOMContentLoaded", function () {
         standbyVideo.classList.remove("is-active");
         heroVideo.after(standbyVideo);
 
-        function prepareVideo(video, source) {
-            video.src = source;
+        function setupVideo(video) {
             video.autoplay = false;
+            video.defaultMuted = true;
             video.muted = true;
             video.playsInline = true;
             video.preload = "auto";
+        }
+
+        function prepareVideo(video, source) {
+            video.src = source;
+            setupVideo(video);
             video.load();
         }
 
+        function retryAfterInteraction(video) {
+            if (hasInteractionRetry) {
+                return;
+            }
+
+            hasInteractionRetry = true;
+
+            function retry() {
+                playVideo(video);
+                document.removeEventListener("click", retry);
+                document.removeEventListener("touchstart", retry);
+                document.removeEventListener("keydown", retry);
+            }
+
+            document.addEventListener("click", retry, { once: true });
+            document.addEventListener("touchstart", retry, { once: true });
+            document.addEventListener("keydown", retry, { once: true });
+        }
+
         function playVideo(video) {
+            setupVideo(video);
+
             const playRequest = video.play();
 
             if (playRequest) {
                 return playRequest.catch(function () {
-                    video.removeAttribute("src");
-                    throw new Error("Hero video playback failed.");
+                    video.addEventListener("canplay", function () {
+                        playVideo(video);
+                    }, { once: true });
+                    retryAfterInteraction(video);
+                    throw new Error("Hero video playback was blocked.");
                 });
             }
 
@@ -171,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
             currentVideoIndex = index % playlist.length;
             prepareVideo(activeVideo, playlist[currentVideoIndex]);
             activeVideo.classList.add("is-active");
-            playVideo(activeVideo);
+            playVideo(activeVideo).catch(function () {});
 
             if (playlist.length > 1) {
                 prepareVideo(standbyVideo, playlist[(currentVideoIndex + 1) % playlist.length]);
