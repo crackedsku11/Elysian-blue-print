@@ -131,6 +131,37 @@ document.addEventListener("DOMContentLoaded", function () {
             .filter(Boolean);
         let currentVideoIndex = 0;
         let failedVideoCount = 0;
+        let activeVideo = heroVideo;
+        let standbyVideo = heroVideo.cloneNode(false);
+        let isTransitioning = false;
+
+        standbyVideo.removeAttribute("id");
+        standbyVideo.removeAttribute("data-video-playlist");
+        standbyVideo.removeAttribute("poster");
+        standbyVideo.classList.remove("is-active");
+        heroVideo.after(standbyVideo);
+
+        function prepareVideo(video, source) {
+            video.src = source;
+            video.autoplay = false;
+            video.muted = true;
+            video.playsInline = true;
+            video.preload = "auto";
+            video.load();
+        }
+
+        function playVideo(video) {
+            const playRequest = video.play();
+
+            if (playRequest) {
+                return playRequest.catch(function () {
+                    video.removeAttribute("src");
+                    throw new Error("Hero video playback failed.");
+                });
+            }
+
+            return Promise.resolve();
+        }
 
         function playHeroVideo(index) {
             if (!playlist.length || failedVideoCount >= playlist.length) {
@@ -138,29 +169,75 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             currentVideoIndex = index % playlist.length;
-            heroVideo.src = playlist[currentVideoIndex];
-            heroVideo.load();
+            prepareVideo(activeVideo, playlist[currentVideoIndex]);
+            activeVideo.classList.add("is-active");
+            playVideo(activeVideo);
 
-            const playRequest = heroVideo.play();
-
-            if (playRequest) {
-                playRequest.catch(function () {
-                    heroVideo.removeAttribute("src");
-                });
+            if (playlist.length > 1) {
+                prepareVideo(standbyVideo, playlist[(currentVideoIndex + 1) % playlist.length]);
             }
         }
 
-        heroVideo.addEventListener("ended", function () {
-            failedVideoCount = 0;
-            playHeroVideo(currentVideoIndex + 1);
-        });
-
-        heroVideo.addEventListener("error", function () {
-            failedVideoCount += 1;
-
-            if (failedVideoCount < playlist.length) {
-                playHeroVideo(currentVideoIndex + 1);
+        function transitionHeroVideo() {
+            if (isTransitioning || playlist.length < 2) {
+                return;
             }
+
+            isTransitioning = true;
+            failedVideoCount = 0;
+            currentVideoIndex = (currentVideoIndex + 1) % playlist.length;
+
+            standbyVideo.currentTime = 0;
+            playVideo(standbyVideo)
+                .then(function () {
+                    standbyVideo.classList.add("is-active");
+                    activeVideo.classList.remove("is-active");
+
+                    window.setTimeout(function () {
+                        activeVideo.pause();
+                        activeVideo.removeAttribute("src");
+
+                        const previousVideo = activeVideo;
+                        activeVideo = standbyVideo;
+                        standbyVideo = previousVideo;
+                        prepareVideo(standbyVideo, playlist[(currentVideoIndex + 1) % playlist.length]);
+                        isTransitioning = false;
+                    }, 750);
+                })
+                .catch(function () {
+                    failedVideoCount += 1;
+                    isTransitioning = false;
+
+                    if (failedVideoCount < playlist.length) {
+                        transitionHeroVideo();
+                    }
+                });
+        }
+
+        function shouldTransition(video) {
+            return video.duration && video.duration - video.currentTime <= 1.5;
+        }
+
+        [heroVideo, standbyVideo].forEach(function (video) {
+            video.addEventListener("timeupdate", function () {
+                if (video === activeVideo && shouldTransition(video)) {
+                    transitionHeroVideo();
+                }
+            });
+
+            video.addEventListener("ended", function () {
+                if (video === activeVideo) {
+                    transitionHeroVideo();
+                }
+            });
+
+            video.addEventListener("error", function () {
+                failedVideoCount += 1;
+
+                if (failedVideoCount < playlist.length) {
+                    playHeroVideo(currentVideoIndex + 1);
+                }
+            });
         });
 
         playHeroVideo(0);
