@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const ctaButtons = document.querySelectorAll("a.cta-button");
     const requestForm = document.querySelector(".request-form");
     const navToggle = document.querySelector(".nav-toggle");
+    const heroVideo = document.querySelector(".hero-video");
 
     const message = document.createElement("div");
     message.className = "site-message";
@@ -119,6 +120,50 @@ document.addEventListener("DOMContentLoaded", function () {
                     submitButton.textContent = originalButtonText;
                 });
         });
+    }
+
+    if (heroVideo) {
+        const playlist = (heroVideo.dataset.videoPlaylist || "")
+            .split(",")
+            .map(function (source) {
+                return source.trim();
+            })
+            .filter(Boolean);
+        let currentVideoIndex = 0;
+        let failedVideoCount = 0;
+
+        function playHeroVideo(index) {
+            if (!playlist.length || failedVideoCount >= playlist.length) {
+                return;
+            }
+
+            currentVideoIndex = index % playlist.length;
+            heroVideo.src = playlist[currentVideoIndex];
+            heroVideo.load();
+
+            const playRequest = heroVideo.play();
+
+            if (playRequest) {
+                playRequest.catch(function () {
+                    heroVideo.removeAttribute("src");
+                });
+            }
+        }
+
+        heroVideo.addEventListener("ended", function () {
+            failedVideoCount = 0;
+            playHeroVideo(currentVideoIndex + 1);
+        });
+
+        heroVideo.addEventListener("error", function () {
+            failedVideoCount += 1;
+
+            if (failedVideoCount < playlist.length) {
+                playHeroVideo(currentVideoIndex + 1);
+            }
+        });
+
+        playHeroVideo(0);
     }
 
     function setActiveNavLink() {
